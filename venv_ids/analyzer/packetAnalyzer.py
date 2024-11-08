@@ -2,8 +2,8 @@ import pandas as pd
 import os
 
 # Define packet_analyzer to receive specific packet data
-def packet_analyzer(src_ip, dst_ip, protocol, src_port, dst_port, ttl, packet_id):
-    columns = ["src_ip", "dst_ip", "protocol", "src_port", "dst_port", "ttl", "id"]
+def packet_analyzer(src_ip, dst_ip, protocol, src_port, dst_port, ttl, packet_id, timestamp):
+    columns = ["src_ip", "dst_ip", "protocol", "src_port", "dst_port", "ttl", "id", "timestamp"]
     
     # Prepare the packet data
     packet_data = {
@@ -13,7 +13,8 @@ def packet_analyzer(src_ip, dst_ip, protocol, src_port, dst_port, ttl, packet_id
         "src_port": src_port,
         "dst_port": dst_port,
         "ttl": ttl,
-        "id": packet_id
+        "id": packet_id,
+        "timestamp": timestamp
     }
     
     # Check if the CSV file  exists
@@ -28,23 +29,7 @@ def packet_analyzer(src_ip, dst_ip, protocol, src_port, dst_port, ttl, packet_id
 
 
 
-# import pandas as pd
 
-# # Define packet_analyzer to receive specific packet data
-# def packet_analyzer(src_ip, dst_ip, protocol, src_port, dst_port, ttl, packet_id):
-#     # Create a DataFrame with a single row containing the new packet data
-#     packet_data = pd.DataFrame([{
-#         "src_ip": src_ip,
-#         "dst_ip": dst_ip,
-#         "protocol": protocol,
-#         "src_port": src_port,
-#         "dst_port": dst_port,
-#         "ttl": ttl,
-#         "Id": packet_id  # Make sure this matches the column name in your CSV file
-#     }])
-
-#     # Append the data to the CSV file without overwriting existing data
-#     packet_data.to_csv("packet_log.csv", mode='a', index=False, header=False)
 
    
 
@@ -52,10 +37,6 @@ def packet_analyzer(src_ip, dst_ip, protocol, src_port, dst_port, ttl, packet_id
 
 
 
-
-
-
-# #  print(f"{protocol} Packet: {ip_src}:{port_src} ----> {ip_dst}:{port_dst}, ID: {ip_packet_number}, TTL: {ip_ttl}, Version: {ip_version}")
 
 # # capture.py
 # # from scapy.all import sniff

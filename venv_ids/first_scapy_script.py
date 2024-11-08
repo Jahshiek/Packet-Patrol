@@ -1,25 +1,5 @@
-# from scapy.all import sniff, IP, TCP, UDP, ICMP, DNS, DNSQR
-
-
-# def packet_handler(packet):
-#     # print(packet.summary())
-#     if IP in packet:
-#         pac = packet[IP]
-#         print(f"Source Address: {pac.src} ---> Destination Address: {pac.dst}")
-
-# sniff(prn = packet_handler)
-
-
-
-
-
-
-
-
-# ////////////////////////////////////////////////
-########################################################
-import datetime
 import sys
+import datetime
 from scapy.all import sniff, IP, TCP, UDP, ICMP, DNS, DNSQR
 from analyzer import packetAnalyzer
 
@@ -37,9 +17,9 @@ from analyzer import packetAnalyzer
 
 # function to process each captured packet
 def packet_callback(packet):
+    timestamp = datetime.datetime.now().strftime("%c")
     # Check if the packet has an IP layer (to filter out non-IP packets)
     if IP in packet:
-        # timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         ip_packet_number = packet[IP].id # unique number that identifies the packet and its place in the overall information
         ip_src = packet[IP].src    # The IP address of the device that sent the packet 
         ip_dst = packet[IP].dst    # The IP address of the device that will receive the packet 
@@ -73,8 +53,8 @@ def packet_callback(packet):
             port_src = "N/A"
             port_dst = "N/A"
         
-        print(f"{protocol} Packet: {ip_src}:{port_src} ----> {ip_dst}:{port_dst}, ID: {ip_packet_number}, TTL: {ip_ttl}, Version: {ip_version}")
-        packetAnalyzer.packet_analyzer(ip_src, ip_dst, ip_protocol, port_src, port_dst, ip_ttl, ip_packet_number)
+        print(f"{protocol} Packet: {ip_src}:{port_src} ----> {ip_dst}:{port_dst}, ID: {ip_packet_number}, TTL: {ip_ttl}, Version: {ip_version}, timestamp: {timestamp}")
+        packetAnalyzer.packet_analyzer(ip_src, ip_dst, ip_protocol, port_src, port_dst, ip_ttl, ip_packet_number, timestamp)
 
     else:
         print(f"{packet} Packet : Non-IP Packet")
@@ -82,10 +62,27 @@ try:
     # Run sniff in an infinite loop
     print("Starting packet capture... (Press Ctrl+C to stop)")
     # sniff(filter="tcp or udp or (udp port 53) or icmp", prn=packet_callback, store=0, count = 50) # Normal Mode: Captures only packets that are directly sent to or from my device.
-    sniff(filter="tcp or udp or (udp port 53) or icmp", prn=packet_callback, store=0, count = 100, iface="en0") # Promiscuous Mode: Captures all packets on the network segment, not just those addressed to my device.
+    sniff(filter="tcp or udp or (udp port 53) or icmp", prn=packet_callback, store=0, count = 50, iface="en0") # Promiscuous Mode: Captures all packets on the network segment, not just those addressed to my device.
+
 except KeyboardInterrupt:
     print("Stopping the network monitor.")
 
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     #figure out the actual data being sent
 
 # import subprocess
@@ -109,8 +106,6 @@ except KeyboardInterrupt:
 
 # ////////////////////////////////////////////////
 # Example Output:
-# plaintext
-# Copy code
 # Starting packet capture... (Press Ctrl+C to stop)
 # TCP Packet: 192.168.1.100:54871 -> 93.184.216.34:80
 # UDP Packet: 192.168.1.100:57543 -> 8.8.8.8:53
